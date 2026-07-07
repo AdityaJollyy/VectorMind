@@ -19,6 +19,15 @@ export function errorHandler(err: unknown, _req: Request, res: Response, _next: 
     return res.status(400).json({ success: false, message });
   }
 
+  // Multer upload errors (e.g. file too large).
+  if (err && typeof err === 'object' && (err as { name?: string }).name === 'MulterError') {
+    const code = (err as { code?: string }).code;
+    const message =
+      code === 'LIMIT_FILE_SIZE' ? 'File is too large (max 10 MB)' : 'File upload failed';
+    logger.warn({ err }, 'Multer error');
+    return res.status(400).json({ success: false, message });
+  }
+
   if (err instanceof ApiError) {
     if (err.statusCode >= 500) logger.error({ err }, err.message);
     return res.status(err.statusCode).json({ success: false, message: err.message });
