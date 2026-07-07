@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { SourcesPanel } from "@/components/sources/SourcesPanel";
 import { ContentPanel } from "@/components/content/ContentPanel";
@@ -13,12 +13,10 @@ export function HomePage() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [tab, setTab] = useState<MobileTab>("sources");
 
-  const selected = sources?.find((s) => s.id === selectedId) ?? null;
-
-  // Auto-select the first source once loaded.
-  useEffect(() => {
-    if (!selectedId && sources?.length) setSelectedId(sources[0].id);
-  }, [sources, selectedId]);
+  // Derive the effective selection: the user's explicit pick, or fall back to
+  // the first source. No effect + setState, so no cascading renders.
+  const effectiveSelectedId = selectedId ?? sources?.[0]?.id ?? null;
+  const selected = sources?.find((s) => s.id === effectiveSelectedId) ?? null;
 
   function onSelect(id: string | null) {
     setSelectedId(id);
@@ -51,7 +49,7 @@ export function HomePage() {
         <div
           className={`${paneVisibility("sources")} min-h-0 flex-col border-line lg:flex lg:border-r`}
         >
-          <SourcesPanel selectedId={selectedId} onSelect={onSelect} />
+          <SourcesPanel selectedId={effectiveSelectedId} onSelect={onSelect} />
         </div>
         <div
           className={`${paneVisibility("overview")} min-h-0 flex-col lg:flex`}

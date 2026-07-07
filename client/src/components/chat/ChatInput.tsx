@@ -32,7 +32,7 @@ export function ChatInput({ disabled, onSend }: ChatInputProps) {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={onKeyDown}
-        className="max-h-40 min-h-[44px] py-2.5 pr-12"
+        className="max-h-40 min-h-11 py-2.5 pr-12"
       />
       <button
         onClick={submit}
