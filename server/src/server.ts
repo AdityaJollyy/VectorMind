@@ -1,10 +1,12 @@
 import { createApp } from './app';
 import { connectDB, disconnectDB } from './db/connect';
+import { ensureCollection } from './lib/vector/qdrant';
 import { env } from './config/env';
 import { logger } from './utils/logger';
 
 async function bootstrap() {
   await connectDB();
+  await ensureCollection();
 
   const app = createApp();
 
