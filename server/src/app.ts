@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import { env } from './config/env';
 import { errorHandler, notFoundHandler } from './middleware/error.middleware';
+import authRoutes from './modules/auth/auth.routes';
 
 export function createApp() {
   const app = express();
@@ -30,7 +31,8 @@ export function createApp() {
     });
   });
 
-  // --- Feature routes will be mounted here in later steps ---
+  // Feature routes
+  app.use('/api/v1/auth', authRoutes);
 
   // 404 + centralized error handling (must be last)
   app.use(notFoundHandler);
