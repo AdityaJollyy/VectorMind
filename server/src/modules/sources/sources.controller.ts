@@ -3,6 +3,7 @@ import { ApiError } from '../../utils/ApiError';
 import { ApiResponse } from '../../utils/ApiResponse';
 import { createSource, listSources, getSource, deleteSource, toSourceDTO } from './sources.service';
 import type { CreateTextInput, CreateUrlInput } from './sources.schema';
+import { stringParam } from '../../utils/params';
 
 type FileSourceType = 'pdf' | 'docx' | 'csv' | 'txt';
 
@@ -23,13 +24,6 @@ function detectFileType(file: Express.Multer.File): FileSourceType | null {
   if (ext === 'csv') return 'csv';
   if (ext === 'txt' || ext === 'text') return 'txt';
   return null;
-}
-
-/** Express 5 types req.params values as string | string[]; safely read a single string. */
-function stringParam(req: Request, key: string): string {
-  const value = req.params[key];
-  if (typeof value !== 'string') throw ApiError.badRequest(`Invalid ${key}`);
-  return value;
 }
 
 export async function uploadSource(req: Request, res: Response) {

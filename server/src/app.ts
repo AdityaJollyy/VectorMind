@@ -7,6 +7,7 @@ import { env } from './config/env';
 import { errorHandler, notFoundHandler } from './middleware/error.middleware';
 import authRoutes from './modules/auth/auth.routes';
 import sourceRoutes from './modules/sources/sources.routes';
+import chatRoutes from './modules/chat/chat.routes';
 
 export function createApp() {
   const app = express();
@@ -35,6 +36,7 @@ export function createApp() {
   // Feature routes
   app.use('/api/v1/auth', authRoutes);
   app.use('/api/v1/sources', sourceRoutes);
+  app.use('/api/v1/sources', chatRoutes);
 
   // 404 + centralized error handling (must be last)
   app.use(notFoundHandler);
