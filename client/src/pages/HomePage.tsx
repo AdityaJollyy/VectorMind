@@ -1,24 +1,68 @@
-import { Wordmark } from "@/components/Wordmark";
-import { ThemeToggle } from "@/components/ThemeToggle";
-import { useAuthStore } from "@/stores/auth.store";
+import { useEffect, useState } from "react";
+import { AppHeader } from "@/components/layout/AppHeader";
+import { SourcesPanel } from "@/components/sources/SourcesPanel";
+import { ContentPanel } from "@/components/content/ContentPanel";
+import { ChatPanel } from "@/components/chat/ChatPanel";
+import { useSources } from "@/hooks/useSources";
+
+type MobileTab = "sources" | "overview" | "chat";
+const tabs: MobileTab[] = ["sources", "overview", "chat"];
 
 export function HomePage() {
-  const user = useAuthStore((s) => s.user);
+  const { data: sources } = useSources();
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [tab, setTab] = useState<MobileTab>("sources");
+
+  const selected = sources?.find((s) => s.id === selectedId) ?? null;
+
+  // Auto-select the first source once loaded.
+  useEffect(() => {
+    if (!selectedId && sources?.length) setSelectedId(sources[0].id);
+  }, [sources, selectedId]);
+
+  function onSelect(id: string | null) {
+    setSelectedId(id);
+    if (id) setTab("chat");
+  }
+
+  const paneVisibility = (pane: MobileTab) =>
+    tab === pane ? "flex" : "hidden";
+
   return (
     <div className="flex h-dvh flex-col bg-canvas">
-      <header className="flex items-center justify-between border-b border-line px-6 py-3">
-        <Wordmark className="text-xl" />
-        <div className="flex items-center gap-3">
-          <span className="font-mono text-xs text-ink-muted">
-            {user?.email}
-          </span>
-          <ThemeToggle />
+      <AppHeader />
+
+      {/* Mobile pane switcher */}
+      <div className="flex gap-1 border-b border-line bg-surface p-2 lg:hidden">
+        {tabs.map((t) => (
+          <button
+            key={t}
+            onClick={() => setTab(t)}
+            className={`flex-1 rounded-lg py-1.5 text-xs font-medium capitalize
+              transition-colors duration-150
+              ${tab === t ? "bg-accent-soft text-accent" : "text-ink-muted"}`}
+          >
+            {t}
+          </button>
+        ))}
+      </div>
+
+      <main className="grid min-h-0 flex-1 lg:grid-cols-[300px_minmax(0,1fr)_420px]">
+        <div
+          className={`${paneVisibility("sources")} min-h-0 flex-col border-line lg:flex lg:border-r`}
+        >
+          <SourcesPanel selectedId={selectedId} onSelect={onSelect} />
         </div>
-      </header>
-      <main className="flex flex-1 items-center justify-center">
-        <p className="text-sm text-ink-muted">
-          The workspace arrives in the next step.
-        </p>
+        <div
+          className={`${paneVisibility("overview")} min-h-0 flex-col lg:flex`}
+        >
+          <ContentPanel source={selected} />
+        </div>
+        <div
+          className={`${paneVisibility("chat")} min-h-0 flex-col border-line bg-surface lg:flex lg:border-l`}
+        >
+          <ChatPanel source={selected} />
+        </div>
       </main>
     </div>
   );
