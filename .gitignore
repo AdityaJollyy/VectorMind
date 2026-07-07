@@ -1,0 +1,24 @@
+cat > .gitignore << 'EOF'
+# dependencies
+node_modules/
+
+# environment / secrets
+.env
+.env.*
+!.env.example
+
+# build output
+dist/
+build/
+
+# runtime file uploads
+server/uploads/
+
+# logs
+*.log
+logs/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+EOF
