@@ -1,9 +1,10 @@
 import { createApp } from './app';
+import { connectDB, disconnectDB } from './db/connect';
 import { env } from './config/env';
 import { logger } from './utils/logger';
 
 async function bootstrap() {
-  // Database & vector-store connections will be added here in later steps.
+  await connectDB();
 
   const app = createApp();
 
@@ -14,8 +15,9 @@ async function bootstrap() {
 
   const shutdown = (signal: string) => {
     logger.info(`${signal} received — shutting down gracefully...`);
-    server.close(() => {
-      logger.info('HTTP server closed.');
+    server.close(async () => {
+      await disconnectDB();
+      logger.info('HTTP server and database connection closed.');
       process.exit(0);
     });
   };
