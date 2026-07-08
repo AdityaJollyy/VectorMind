@@ -11,7 +11,7 @@ type Mode = "file" | "text" | "url";
 const tabs: { mode: Mode; label: string; icon: typeof Upload }[] = [
   { mode: "file", label: "File", icon: Upload },
   { mode: "text", label: "Text", icon: Type },
-  { mode: "url", label: "URL", icon: Link2 },
+  { mode: "url", label: "Link", icon: Link2 },
 ];
 
 export function AddSource({
@@ -36,14 +36,14 @@ export function AddSource({
 
   return (
     <div className="rounded-xl border border-line bg-surface p-3">
-      <div className="mb-3 flex gap-1">
+      <div className="mb-3 flex gap-1 rounded-lg bg-surface-2 p-1">
         {tabs.map(({ mode: m, label, icon: TabIcon }) => (
           <button
             key={m}
             onClick={() => setMode(m)}
-            className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg py-1.5
+            className={`flex flex-1 items-center justify-center gap-1.5 rounded-md py-1.5
               text-xs font-medium transition-colors duration-150
-              ${mode === m ? "bg-accent-soft text-accent" : "text-ink-muted hover:bg-surface-2"}`}
+              ${mode === m ? "bg-accent text-on-accent" : "text-ink-muted hover:text-ink"}`}
           >
             <TabIcon className="size-3.5" />
             {label}
@@ -65,13 +65,16 @@ export function AddSource({
             }}
           />
           <Button
-            variant="ghost"
+            variant="outline"
             loading={uploadFile.isPending}
             onClick={() => fileRef.current?.click()}
             className="w-full border-dashed"
           >
-            <Plus className="size-4" /> Upload PDF, DOCX, CSV, or TXT
+            <Plus className="size-4" /> Upload a file
           </Button>
+          <p className="mt-2 text-center text-[11px] text-ink-muted">
+            PDF, Word, CSV, or TXT
+          </p>
         </>
       )}
 
@@ -79,7 +82,7 @@ export function AddSource({
         <div className="flex flex-col gap-2">
           <Textarea
             rows={4}
-            placeholder="Paste any text to chat with…"
+            placeholder="Paste any text you want to ask about…"
             value={text}
             onChange={(e) => setText(e.target.value)}
           />

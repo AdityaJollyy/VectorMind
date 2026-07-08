@@ -1,46 +1,45 @@
 @import "tailwindcss";
-@import "@fontsource-variable/bricolage-grotesque";
-@import "@fontsource-variable/instrument-sans";
+@import "@fontsource-variable/archivo";
 @import "@fontsource-variable/jetbrains-mono";
 
 /* Class-based dark mode: `dark:` utilities apply when <html> has .dark */
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ---------------------------------------------------------------------------
-   Design tokens — "Ink & Highlighter"
-   Paper surfaces, ink text, pine-ink accent, marker-amber highlight.
+   Design tokens — "Charcoal & Amber" (editorial)
+   Near-black surfaces, warm ivory ink, mustard-amber accent, squared geometry.
    These variables are the ONLY colors used anywhere in the app.
 --------------------------------------------------------------------------- */
 :root {
-  --canvas: #f7f6f3; /* app background (paper) */
-  --surface: #ffffff; /* cards, panels, inputs */
-  --surface-2: #efeee9; /* subtle wells, hovers */
-  --ink: #1a1f23; /* primary text */
-  --ink-muted: #5b6570; /* secondary text */
-  --line: #e4e2db; /* borders, dividers */
-  --accent: #0e6b5b; /* pine ink — actions, links, focus */
-  --accent-hover: #0a5648;
-  --accent-soft: #e3f0ec; /* tinted backgrounds for accent contexts */
-  --on-accent: #ffffff; /* text on accent */
-  --highlight: #f2b84b; /* marker amber — the signature; use sparingly */
+  --canvas: #f4f1ea; /* warm paper */
+  --surface: #fbfaf6;
+  --surface-2: #ebe7dc;
+  --ink: #1a1a18;
+  --ink-muted: #6f6a5f;
+  --line: #d9d4c6;
+  --accent: #a87415; /* dark amber for light-mode contrast */
+  --accent-hover: #8f6110;
+  --accent-soft: #f1e5c8;
+  --on-accent: #ffffff;
+  --highlight: #d9a441;
   --danger: #c2402a;
-  --danger-soft: #f9e9e5;
+  --danger-soft: #f6e4df;
 }
 
 .dark {
-  --canvas: #0f1417;
-  --surface: #161c21;
-  --surface-2: #1d242a;
-  --ink: #e8eae6;
-  --ink-muted: #98a2ab;
-  --line: #252c33;
-  --accent: #3cc6a7;
-  --accent-hover: #5cd6ba;
-  --accent-soft: #12352f;
-  --on-accent: #0f1417;
-  --highlight: #e8b44c;
+  --canvas: #141414; /* charcoal */
+  --surface: #1d1d1d;
+  --surface-2: #262624;
+  --ink: #f2f0eb; /* warm ivory */
+  --ink-muted: #8f8b81;
+  --line: #2e2c28;
+  --accent: #d9a441; /* mustard amber */
+  --accent-hover: #e6b558;
+  --accent-soft: #2b2314;
+  --on-accent: #141414;
+  --highlight: #d9a441;
   --danger: #e06a55;
-  --danger-soft: #3a1f1a;
+  --danger-soft: #38201b;
 }
 
 /* Map tokens to Tailwind utilities (bg-canvas, text-ink, border-line, ...) */
@@ -59,8 +58,8 @@
   --color-danger: var(--danger);
   --color-danger-soft: var(--danger-soft);
 
-  --font-display: "Bricolage Grotesque Variable", system-ui, sans-serif;
-  --font-sans: "Instrument Sans Variable", system-ui, sans-serif;
+  --font-display: "Archivo Variable", system-ui, sans-serif;
+  --font-sans: "Archivo Variable", system-ui, sans-serif;
   --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
 }
 
@@ -76,10 +75,36 @@ body {
   @apply bg-canvas text-ink font-sans antialiased;
 }
 
-/* Text selection uses the marker highlight — the theme in miniature. */
+/* Product headings: bold, tight, sentence case. */
+.type-display {
+  @apply font-display font-bold tracking-tight;
+}
+
+/* Small muted labels (section headers, meta lines). */
+.type-label {
+  @apply text-xs font-medium tracking-wide text-ink-muted;
+}
+
+/* Text selection = amber marker. */
 ::selection {
   background: var(--highlight);
-  color: #1a1f23;
+  color: #141414;
+}
+
+/* Thin, themed scrollbars for the editorial panes. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--line);
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--ink-muted);
 }
 
 /* Smooth theme change without animating everything forever. */

@@ -19,7 +19,9 @@ export function SourcesPanel({ selectedId, onSelect }: SourcesPanelProps) {
     <div className="flex h-full flex-col gap-3 p-3">
       <AddSource onCreated={(source: Source) => onSelect(source.id)} />
 
-      <div className="flex-1 space-y-1 overflow-y-auto">
+      <p className="type-label px-1">Your sources</p>
+
+      <div className="-mt-1 flex-1 space-y-1 overflow-y-auto">
         {isLoading && (
           <div className="flex justify-center py-8">
             <Spinner className="size-5 text-ink-muted" />
@@ -28,7 +30,7 @@ export function SourcesPanel({ selectedId, onSelect }: SourcesPanelProps) {
 
         {!isLoading && sources?.length === 0 && (
           <p className="px-2 py-8 text-center text-sm text-ink-muted">
-            Add your first source above to start a conversation with it.
+            Add a document above to get started.
           </p>
         )}
 

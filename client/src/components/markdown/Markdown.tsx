@@ -41,7 +41,7 @@ export function Markdown({ content }: { content: string }) {
           ),
           blockquote: (props) => (
             <blockquote
-              className="my-2 border-l-2 border-highlight pl-3 text-ink-muted"
+              className="my-2 border-l-2 border-accent pl-3 text-ink-muted"
               {...props}
             />
           ),

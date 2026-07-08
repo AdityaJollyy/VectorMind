@@ -11,6 +11,15 @@ const typeIcons = {
   url: Globe,
 } as const;
 
+const typeLabels: Record<Source["type"], string> = {
+  pdf: "PDF",
+  docx: "Word",
+  csv: "CSV",
+  txt: "Text file",
+  text: "Text",
+  url: "Web page",
+};
+
 interface SourceItemProps {
   source: Source;
   selected: boolean;
@@ -34,32 +43,31 @@ export function SourceItem({
       tabIndex={0}
       onClick={onSelect}
       onKeyDown={(e) => e.key === "Enter" && onSelect()}
-      className={`group relative flex cursor-pointer items-start gap-2.5 rounded-lg border p-3
+      className={`group relative flex cursor-pointer items-start gap-2.5 rounded-lg p-3
         transition-colors duration-150
-        ${selected ? "border-line bg-surface" : "border-transparent hover:bg-surface-2"}`}
+        ${selected ? "bg-surface-2" : "hover:bg-surface-2/60"}`}
     >
-      {/* Signature: amber marker edge on the active source */}
       {selected && (
-        <span className="absolute inset-y-2 left-0 w-1 -skew-x-6 rounded-full bg-highlight" />
+        <span className="absolute inset-y-2 left-0 w-[3px] rounded-full bg-accent" />
       )}
 
-      <Icon className="mt-0.5 size-4 shrink-0 text-ink-muted" />
+      <Icon
+        className={`mt-0.5 size-4 shrink-0 ${selected ? "text-accent" : "text-ink-muted"}`}
+      />
 
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-medium text-ink">{name}</p>
-        <div className="mt-0.5 flex items-center gap-2 font-mono text-[11px]">
+        <p className="mt-0.5 flex items-center gap-1.5 text-xs text-ink-muted">
           {source.status === "processing" && (
-            <span className="flex items-center gap-1.5 text-ink-muted">
-              <Spinner className="size-3" /> processing
-            </span>
+            <>
+              <Spinner className="size-3" /> Processing…
+            </>
           )}
-          {source.status === "ready" && (
-            <span className="text-accent">{source.chunkCount} chunks</span>
-          )}
+          {source.status === "ready" && <>{typeLabels[source.type]} · Ready</>}
           {source.status === "failed" && (
-            <span className="text-danger">failed</span>
+            <span className="text-danger">Couldn't process</span>
           )}
-        </div>
+        </p>
       </div>
 
       <button

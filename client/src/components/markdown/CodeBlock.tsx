@@ -27,12 +27,14 @@ export function CodeBlock({ children }: { children?: ReactNode }) {
 
   return (
     <div className="my-3 overflow-hidden rounded-lg border border-line">
-      <div className="flex items-center justify-between bg-surface-2 px-3 py-1.5">
-        <span className="font-mono text-xs text-ink-muted">{language}</span>
+      <div className="flex items-center justify-between border-b border-line bg-surface-2 px-3 py-1.5">
+        <span className="font-mono text-[10px] uppercase tracking-widest text-accent">
+          {language}
+        </span>
         <button
           onClick={copy}
-          className="flex items-center gap-1 font-mono text-xs text-ink-muted
-            transition-colors hover:text-ink"
+          className="flex items-center gap-1 font-mono text-[10px] uppercase tracking-widest
+            text-ink-muted transition-colors hover:text-ink"
         >
           {copied ? (
             <Check className="size-3.5" />
@@ -42,7 +44,7 @@ export function CodeBlock({ children }: { children?: ReactNode }) {
           {copied ? "Copied" : "Copy"}
         </button>
       </div>
-      <pre className="overflow-x-auto bg-[#14181c] p-4 font-mono text-[13px] leading-relaxed text-[#e8eae6]">
+      <pre className="overflow-x-auto bg-[#101010] p-4 font-mono text-[13px] leading-relaxed text-[#f2f0eb]">
         <code>{code}</code>
       </pre>
     </div>

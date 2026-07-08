@@ -28,11 +28,11 @@ export function ChatInput({ disabled, onSend }: ChatInputProps) {
     <div className="relative">
       <Textarea
         rows={1}
-        placeholder="Ask about this source…"
+        placeholder="Ask a question about this document…"
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={onKeyDown}
-        className="max-h-40 min-h-11 py-2.5 pr-12"
+        className="max-h-40 min-h-[46px] rounded-xl py-3 pr-12"
       />
       <button
         onClick={submit}

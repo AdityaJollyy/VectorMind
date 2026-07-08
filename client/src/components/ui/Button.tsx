@@ -1,7 +1,7 @@
 import type { ButtonHTMLAttributes } from "react";
 import { Spinner } from "./Spinner";
 
-type Variant = "primary" | "ghost" | "danger";
+type Variant = "primary" | "outline" | "ghost" | "danger";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;
@@ -15,8 +15,10 @@ const base =
 
 const variants: Record<Variant, string> = {
   primary: "bg-accent text-on-accent hover:bg-accent-hover",
-  ghost: "bg-transparent text-ink hover:bg-surface-2 border border-line",
-  danger: "bg-transparent text-danger hover:bg-danger-soft border border-line",
+  outline:
+    "border border-accent text-accent hover:bg-accent hover:text-on-accent",
+  ghost: "border border-line text-ink hover:bg-surface-2",
+  danger: "border border-line text-danger hover:bg-danger-soft",
 };
 
 export function Button({

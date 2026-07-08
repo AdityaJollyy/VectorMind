@@ -15,12 +15,10 @@ function validate(
   password: string
 ): Errors {
   const errors: Errors = {};
-  if (mode === "register" && name.trim().length < 2) {
+  if (mode === "register" && name.trim().length < 2)
     errors.name = "Name must be at least 2 characters";
-  }
-  if (!/^\S+@\S+\.\S+$/.test(email)) {
+  if (!/^\S+@\S+\.\S+$/.test(email))
     errors.email = "Enter a valid email address";
-  }
   if (mode === "register" ? password.length < 8 : password.length === 0) {
     errors.password =
       mode === "register"
@@ -45,7 +43,6 @@ export function AuthPage() {
     const nextErrors = validate(mode, name, email, password);
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) return;
-
     if (mode === "login") login.mutate({ email, password });
     else register.mutate({ name: name.trim(), email, password });
   }
@@ -56,21 +53,30 @@ export function AuthPage() {
   }
 
   return (
-    <div className="flex h-dvh flex-col bg-canvas">
-      <header className="flex items-center justify-between px-6 py-4">
+    <div className="flex min-h-dvh flex-col bg-canvas">
+      <header className="flex items-center justify-between border-b border-line px-4 py-3 sm:px-8">
         <Wordmark />
         <ThemeToggle />
       </header>
 
-      <main className="flex flex-1 items-center justify-center px-4 pb-16">
-        <div className="w-full max-w-sm">
-          <h1 className="font-display text-2xl font-semibold text-ink">
-            {mode === "login" ? "Welcome back" : "Create your notebook"}
+      <main className="mx-auto grid w-full max-w-5xl flex-1 items-center gap-10 px-4 py-10 sm:px-8 lg:grid-cols-2 lg:gap-16">
+        <div>
+          <h1 className="type-display text-[clamp(2rem,4.5vw,3rem)] leading-tight text-ink">
+            Chat with your <span className="text-accent">documents</span>.
           </h1>
+          <p className="mt-4 max-w-md text-[15px] leading-relaxed text-ink-muted">
+            Upload a PDF, a web page, or plain text. VectorMind reads it and
+            answers your questions — using only what's actually in your
+            document.
+          </p>
+        </div>
+
+        <div className="rounded-xl border border-line bg-surface p-6 sm:p-8">
+          <h2 className="type-display text-xl text-ink">
+            {mode === "login" ? "Welcome back" : "Create your account"}
+          </h2>
           <p className="mt-1 text-sm text-ink-muted">
-            {mode === "login"
-              ? "Log in to continue your conversations."
-              : "Upload documents and chat with them."}
+            {mode === "login" ? "Log in to continue." : "Free to get started."}
           </p>
 
           <form
@@ -114,7 +120,7 @@ export function AuthPage() {
             {mode === "login" ? "New here?" : "Already have an account?"}{" "}
             <button
               onClick={switchMode}
-              className="font-medium text-accent underline-offset-2 hover:underline"
+              className="font-medium text-accent hover:underline"
             >
               {mode === "login" ? "Create an account" : "Log in"}
             </button>
