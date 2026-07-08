@@ -48,7 +48,7 @@ export function SourceItem({
         ${selected ? "bg-surface-2" : "hover:bg-surface-2/60"}`}
     >
       {selected && (
-        <span className="absolute inset-y-2 left-0 w-[3px] rounded-full bg-accent" />
+        <span className="absolute inset-y-2 left-0 w-0.75 rounded-full bg-accent" />
       )}
 
       <Icon
